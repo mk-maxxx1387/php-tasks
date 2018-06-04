@@ -1,0 +1,26 @@
+Создать аплоад форму: инпут, кнопка File, кнопка Submit. Ниже - таблица (после указания файла).
+Поля таблицы: #, File name(.txt), Size(KB), Command (delete).
+
+index.php
+-------------
+1. загрузить config.php (define)
+2. загрузить файл с функциями (function.php)
+3. валидация формы на существование, доступ,
+
+Функции
+
+1.upload file
+2.get file name
+2.get file size (make KB format)
+3.delete file
+
+if ($_FILES['name']){
+	....
+}
+
+if($_GET['action'])
+
+загрузить template из директории templates/index.php через include - хтмл код 
+переменная $title
+распечатка данных только в шаблоне
+сообщения об ошибках в config.php
