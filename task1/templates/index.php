@@ -10,9 +10,9 @@
         }
         </style>
         <? if($message['isError']){ ?>
-        <p style='color: red;'><?=$message['message'];?></p>
+        <p style='color: red;'><?=$message['msg'];?></p>
         <? } else { ?>
-        <p style='color: green;'><?=$message['message'];?></p>
+        <p style='color: green;'><?=$message['msg'];?></p>
         <? } ?>
         <form enctype='multipart/form-data' method='post' action='index.php?action=uploadFile'>
             <input type='file' name='fileUpload' value=''>

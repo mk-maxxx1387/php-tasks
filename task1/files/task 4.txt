@@ -1,0 +1,4 @@
+Создать 3 класса, 2 из них - наследники. 1 - MySql, 2 - PostgreSql. Родитель - конструктор запросов.
+4 запроса - SELECT, INSERT, UPDATE, DELETE. * - запрещенный символ. setFields, setTable, setValues . Use parent. 
+Use PDO for connect and etc. 
+index.php - Show init data, queries, and result for each query.
