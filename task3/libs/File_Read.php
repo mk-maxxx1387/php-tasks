@@ -11,6 +11,22 @@ class File_Read {
         $this->getFileContent();
     }
 
+    public function printFile(){
+        if(is_readable(FILE_PATH)){
+            $file = "";
+            $i = 1;
+            foreach($this->fileContent as $line){
+                $file .= "$i)$line<br>";
+                $i++;
+            }
+            return $file;
+
+        }
+        $sngl->isError = true;
+        $sngl->msg = ERR_1;
+        return false;
+    }
+
     public function getFileContent(){
         if(!is_readable($this->filePath)){
             $sngl->isError = true;
@@ -19,6 +35,7 @@ class File_Read {
         }
 
         $this->fileContent = file($this->filePath);
+        return $this->fileContent;
     }
 
     public function getStrByIndex($index){
