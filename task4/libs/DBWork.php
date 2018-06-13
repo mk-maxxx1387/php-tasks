@@ -16,14 +16,13 @@ class DBWork {
     public function setTable($name){
         if($this->ifName($name)){
             $this->table = $name;
-            return TRUE;
+            return $this;
         } else {
             return FALSE;
         }
     }
 
     public function setFields($fields){
-        var_dump($fields);
         if($this->ifArray($fields)){
             /*if(count($fields) != count($vals)){
                 echo "Fields count must be equal values count";
@@ -37,7 +36,7 @@ class DBWork {
             }
 
             $this->fields = $fields;
-            return TRUE;
+            return $this;
         }
         echo "Set fields failed. ";
         return FALSE;
@@ -46,41 +45,40 @@ class DBWork {
     public function setVals($vals){
         if($this->ifArray($vals)){
             $this->vals = $vals;
-            return TRUE;
+            return $this;
         }
         return FALSE;
     }
 
     public function selectEl(){
-        $query = "";
-
         if(!$this->ifTable() || !$this->ifFields()){
             echo "Select function failed. ";
             return FALSE;
         }
 
         $query = "SELECT ";
-        $cnt = count($this->fields);
-        
+        $flds = $this->fields;
+        $table = $this->table;
+        $cnt = count($flds);
+
         for($i = 0; $i < $cnt; $i++){
             if($i != $cnt-1){
-                $query .= "$field, ";
+                $query .= "$flds[$i], ";
             } else {
-                $query .= "$field ";
+                $query .= "$flds[$i] ";
             }
         }
-        $query .= "FROM $this->table ";
+        $query .= "FROM $table ";
         $this->query = $query;
         return $this;
     }
 
     public function whereEl($field, $oper){
-        if($this->ifName($field) && $this->ifOper($oper) && $this>ifVals()){
-            if($this->ifQuery()){
-                $this->query = "WHERE $field $oper ?";
+        if($this->ifName($field) && $this->ifOper($oper) && $this->ifVals()){
+                $this->query .= "WHERE $field $oper ?";
                 return $this;
-            }
         }
+        echo "Where failed.";
         return FALSE;
     }
 
@@ -90,7 +88,7 @@ class DBWork {
             return FALSE;
         }
 
-        $query = "INSERT INTO $this->table (";
+        $query = "INSERT INTO $this->table(";
         $flds = $this->fields;
         $cnt = count($flds);
 
@@ -106,6 +104,10 @@ class DBWork {
         return $this;
     }
 
+    public function getValById($id){
+        return $this->vals[$id];
+    }
+
     public function valuesEl(){
         if(!$this->ifVals()){
             echo "Values function failed. ";
@@ -113,7 +115,8 @@ class DBWork {
         }
 
         $vals = $this->vals;
-        $this->query = "VALUES (";
+        $flds = $this->fields;
+        $this->query .= "VALUES(";
 
         /*for($i = 0; $i < count($vals); $i++){
             $this->query .= "'$vals[$i]'";
@@ -124,11 +127,11 @@ class DBWork {
             }
         }*/
         for($i = 0; $i < count($vals); $i++){
-            $this->query .= "'?'";
-            if($i != count($vals)){
+            $this->query .= "?";
+            if($i != count($vals)-1){
                 $this->query .= ", ";
             } else{
-                $this->query .= ")";
+                $this->query .= ") ";
             }
         }
 
@@ -142,13 +145,13 @@ class DBWork {
             return FALSE;
         }
 
-        $query = "UPDATE $table SET ";
-        $flds = $this->flds;
+        $query = "UPDATE $this->table SET ";
+        $flds = $this->fields;
         $vals = $this->vals;
-        $fCnt = count($flds);
+        $vCnt = count($flds);
 
         for($i = 0; $i < $fCnt; $i++){
-            $query .= "$flds[$i] = '?'";
+            $query .= "$flds[$i] = ?";
             if($i != $fCnt-1){
                 $query .= ', ';
             }
@@ -171,6 +174,7 @@ class DBWork {
     public function execute(){
         $query = $this->query;
         $query .= "LIMIT 1;";
+        $this->query = $query;
     }
 
     public function ifFields(){
