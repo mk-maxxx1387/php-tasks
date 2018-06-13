@@ -1,0 +1,32 @@
+<?php
+define('RBG_TITLE', 'Radio group');
+define('RBG_NAME', 'rbGroup');
+define('UL_CL', 'ul_cl');
+define('LI_CL', 'li_cl');
+define('DL_CL', 'dl_cl');
+define('DT_CL', 'dt_cl');
+define('DD_CL', 'dd_cl');
+define('UL_TYPE', 'disc');
+/*define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+define('', '');
+*/
