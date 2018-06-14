@@ -10,7 +10,7 @@ spl_autoload_register(function ($class_name){
 
 $m = new MySql();
 $fields = array('userid', 'userdata');
-$vals = array('user3', date("Y-m-d H:i:s"));
+$vals = array('user3');
 $table = 'MY_TEST';
 
 printSel($m, $fields, $vals);
@@ -18,9 +18,19 @@ printSel($m, $fields, $vals);
 $m->setTable($table)
     ->setFields(array('userdata'))
     ->setVals(array(date("Y-m-d H:i:s"), 'user3'))
-    ->updateSetEl()
-    ->whereEl('userid', '=')
+    ->updateSet()
+    ->where('userid', '=')
     ->execute();
+
+printSel($m, $fields, $vals);
+
+$m->setTable($table)
+    ->setVals(array('first data'))
+    ->deleteFrom()
+    ->where('userdata', '=')
+    ->execute();
+
+printSel($m, $fields, $vals);
 
 
 
@@ -45,10 +55,14 @@ $m->setTable($table)
 function printSel($m,$f,$v = null, $t = 'MY_TEST'){
     $res = $m->setFields($f)
         ->setTable($t)
-        ->selectEl()
+        ->select()
+        ->distinct()
         ->setVals($v)
-        ->whereEl($f[0], '=')
-        ->executeSel();
+        ->where($f[0], '=')
+        ->execute();
+    if(!$res){
+        return FALSE;
+    }
     $keys = array_keys($res[0]);
     $table .= "<table border='1'><tr>";
         foreach($keys as $val){

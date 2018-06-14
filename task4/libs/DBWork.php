@@ -6,13 +6,6 @@ class DBWork {
     protected $vals;
     protected $query;
 
-    public function connect(){
-        $host = HOST;
-        $dbname = DB_NAME;
-        $user = USER;
-        $pwd = PWD;
-    }
-
     public function setTable($name){
         if($this->ifName($name)){
             $this->table = $name;
@@ -23,23 +16,18 @@ class DBWork {
     }
 
     public function setFields($fields){
-        if($this->ifArray($fields)){
-            /*if(count($fields) != count($vals)){
-                echo "Fields count must be equal values count";
-                return FALSE;
-            }*/
-
-            foreach($fields as $fld){
-                if(!$this->ifName($fld)){
-                    return FALSE;
-                }
-            }
-
-            $this->fields = $fields;
-            return $this;
+        if(!$this->ifArray($fields)){
+            echo "Set fields failed. ";
+            return FALSE;
         }
-        echo "Set fields failed. ";
-        return FALSE;
+        foreach($fields as $fld){
+            if(!$this->ifName($fld)){
+                return FALSE;
+            }
+        }
+
+        $this->fields = $fields;
+        return $this;
     }
 
     public function setVals($vals){
@@ -47,99 +35,71 @@ class DBWork {
             $this->vals = $vals;
             return $this;
         }
+        echo "Values aren`t set";
         return FALSE;
     }
 
-    public function selectEl(){
+    public function select(){
         if(!$this->ifTable() || !$this->ifFields()){
             echo "Select function failed. ";
             return FALSE;
         }
 
         $query = "SELECT ";
-        $flds = $this->fields;
-        $table = $this->table;
-        $cnt = count($flds);
+        $query .= implode(",", $this->fields);
+        $query .= " FROM $this->table ";
 
-        for($i = 0; $i < $cnt; $i++){
-            if($i != $cnt-1){
-                $query .= "$flds[$i], ";
-            } else {
-                $query .= "$flds[$i] ";
-            }
-        }
-        $query .= "FROM $table ";
         $this->query = $query;
         return $this;
     }
-
-    public function whereEl($field, $oper){
-        if($this->ifName($field) && $this->ifOper($oper) && $this->ifVals()){
-                $this->query .= "WHERE $field $oper ?";
-                return $this;
-        }
-        echo "Where failed.";
-        return FALSE;
+    
+    public function distinct(){
+        $this->query .= 'DISTINCT';
+        return $this;
     }
 
-    public function insertIntoEl(){
+    public function where($field, $oper){
+        if(!$this->ifName($field) 
+        || !$this->ifOper($oper) 
+        || !$this->ifVals()){
+            echo "Where failed.";
+            return FALSE;
+        }
+         $this->query .= "WHERE $field $oper ?";
+         return $this;
+    }
+
+    public function insertInto(){
         if(!$this->ifTable() || !$this->ifFields()){
             echo "Insert function failed. ";
             return FALSE;
         }
 
         $query = "INSERT INTO $this->table(";
-        $flds = $this->fields;
-        $cnt = count($flds);
-
-        for($i = 0; $i < $cnt; $i++){
-            if($i != $cnt-1){
-                $query .= $flds[$i].",";
-            } else {
-                $query .= $flds[$i].") ";
-            }
-        }
+        $query .= implode(",", $this->fields).") ";
 
         $this->query = $query;
         return $this;
     }
 
-    public function getValById($id){
-        return $this->vals[$id];
-    }
-
-    public function valuesEl(){
+    public function values(){
         if(!$this->ifVals()){
             echo "Values function failed. ";
             return FALSE;
         }
 
         $vals = $this->vals;
-        $flds = $this->fields;
         $this->query .= "VALUES(";
 
-        /*for($i = 0; $i < count($vals); $i++){
-            $this->query .= "'$vals[$i]'";
-            if($i != count($vals)){
-                $this->query .= ", "
-            } else{
-                $this->query .= ")";
-            }
-        }*/
-        for($i = 0; $i < count($vals); $i++){
-            $this->query .= "?";
-            if($i != count($vals)-1){
-                $this->query .= ", ";
-            } else{
-                $this->query .= ") ";
-            }
+        foreach($vals as $key => $val){
+            $vals[$key] = "?";
         }
-
+        $this->query .= implode(",", $vals).") ";
 
         return $this;
     }
 
-    public function updateSetEl(){
+    public function updateSet(){
         if(!$this->ifTable() || !$this->ifFields() || !$this->ifVals()){
             echo "Update function failed. ";
             return FALSE;
@@ -147,22 +107,18 @@ class DBWork {
 
         $query = "UPDATE $this->table SET ";
         $flds = $this->fields;
-        $vals = $this->vals;
-        $vCnt = count($flds);
 
-        for($i = 0; $i < $fCnt; $i++){
-            $query .= "$flds[$i] = ?";
-            if($i != $fCnt-1){
-                $query .= ', ';
-            }
+        foreach($flds as $key => $val){
+            $flds[$key] = $val." = ? ";
         }
+        $query .= implode(",",$flds);
 
         $this->query = $query;
         return $this;
     }
 
-    public function deleteEl(){
-        if(!$this->ifTable){
+    public function deleteFrom(){
+        if(!$this->ifTable()){
             echo "Delete function failed. ";
             return FALSE;
         }
@@ -172,9 +128,7 @@ class DBWork {
     }
 
     public function execute(){
-        $query = $this->query;
-        $query .= "LIMIT 1;";
-        $this->query = $query;
+        $this->ifLimit();
     }
 
     public function ifFields(){
@@ -227,10 +181,9 @@ letters";
         return TRUE;
     }
 
-    public function ifQuery(){
-        if(!preg_match("/^(SELECT|DELETE)/", $this->query)){
-            echo "Query must begin from SELELT or DELETE for this SQL function";
-            return FALSE;
+    public function ifLimit(){
+        if(preg_match("/^(UPDATE|DELETE)/", $this->query)){
+            $this->query .= " LIMIT 1";
         }
     }
 }
