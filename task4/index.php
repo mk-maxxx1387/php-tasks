@@ -10,56 +10,38 @@ spl_autoload_register(function ($class_name){
 
 $m = new MySql();
 $fields = array('userid', 'userdata');
-$vals = array('user3');
+$vals = array('user3', 'first data5');
+$selV = array('user3');
 $table = 'MY_TEST';
 
-printSel($m, $fields, $vals);
-
-$m->setTable($table)
-    ->setFields(array('userdata'))
-    ->setVals(array(date("Y-m-d H:i:s"), 'user3'))
-    ->updateSet()
+//printSel($m, $fields, $selV);
+//$m->insertInto($table, $fields)->execute($vals);
+printSel($m, $fields, $selV);
+/*$m->update($table)
+    ->set(array('userdata'))
     ->where('userid', '=')
-    ->execute();
+    ->execute(array(date("Y-m-d H:i:s"), 'user3'));
 
-printSel($m, $fields, $vals);
-
-$m->setTable($table)
-    ->setVals(array('first data'))
-    ->deleteFrom()
+printSel($m, $fields, $selV);
+*/
+$m->del()
+    ->from($table)
     ->where('userdata', '=')
-    ->execute();
+    ->limit(0)
+    ->execute(array('first data1'));
 
-printSel($m, $fields, $vals);
-
-
-
+//printSel($m, $fields, $selV);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function printSel($m,$f,$v = null, $t = 'MY_TEST'){
-    $res = $m->setFields($f)
-        ->setTable($t)
-        ->select()
-        ->distinct()
-        ->setVals($v)
-        ->where($f[0], '=')
-        ->execute();
+function printSel($m,$f,$v, $t = 'MY_TEST'){
+    $res = $m->select()
+        //->distinct()
+        ->addFields($f)
+        ->from($t)
+        ->groupBy()
+        ->agr('COUNT', 'userid', false)
+        //->orderBy(array('userdata'), 'ASC')
+        ->execute($v);
     if(!$res){
         return FALSE;
     }

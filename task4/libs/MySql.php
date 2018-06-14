@@ -9,13 +9,12 @@ class MySql extends DBWork{
         $this->pdo = new PDO($dns, USER, PWD);
     }
 
-    public function execute(){
-        parent::execute();
+    public function execute($vals){
+        parent::queryEnd();
         $pdo = $this->pdo;
-        $vals = $this->vals;
         $sth = $pdo->prepare($this->query);
 
-        if($vals){
+        if($vals && $this->ifArray($vals)){
             foreach($vals as $key => $val){
                 $sth->bindParam($key+1, $vals[$key]);
             }
@@ -44,4 +43,3 @@ class MySql extends DBWork{
         return FALSE;
     }
 }
-    
