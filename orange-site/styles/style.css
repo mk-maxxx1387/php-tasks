@@ -1,0 +1,152 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+a:link{
+	text-decoration: none;
+}
+a:visited{
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: none;
+	color: white !important;
+}
+a:active{
+	text-decoration: none;
+}
+
+body{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.clearfix::after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+.global-wrap{
+	min-width: 320px;
+	width: 100%;
+}
+
+.global-menu a{
+	font-size: 13px;
+	color: gray;
+}
+
+.global-menu-selected a{
+	color: white;
+}
+
+.global-menu-signup a{
+	font-weight: bold;
+	padding: 15px 25px;
+	border-bottom: 3px solid #779871;
+	border-radius: 5px;
+	background: #acdca3 1px;
+	color: white;
+}
+
+.content-el-orange{
+	background: #fe742c;
+	height: 700px;
+	border-top: 10px solid #ef622c;
+	border-bottom: 35px solid #fd701d;
+}
+
+.el-orange-title{
+	padding-top: 42px;
+	text-align: center;
+	color: white;
+	font-size: 40px;
+
+
+}
+
+.el-orange-slider-arrow img{
+	padding-bottom: 100px;
+	
+}
+
+.el-orange-slider-img div{
+	display: inline-table;
+}
+
+
+.el-orange-slider div{
+	display: inline-table;
+	padding: 30px 110px;
+}
+
+.el-orange-sel{
+
+}
+
+@media (max-width: 677px) {
+	.global-menu, .main-logo{
+		float: none;
+		margin: 0 auto;
+	}
+	.global-menu ul{
+		list-style-type: none;
+	}
+
+	.global-menu li{
+		text-align: center;
+		padding: 2px 25px;
+	}
+	.global-header{
+		background-color: #2b2c3a;
+		height: auto;
+	}
+}
+
+@media (min-width: 678px) and (max-width: 979px) {
+	.global-menu ul{
+		list-style-type: none;
+	}
+
+	.global-menu li{
+		text-align: center;
+		padding: 2px 25px;
+	}
+	.global-header{
+		background-color: #2b2c3a;
+		height: auto;
+	}
+}
+
+@media(min-width: 980px){
+	.main-logo{
+		float: left;
+		padding-left:160px;
+		/*padding-right: 120px;*/
+	}
+
+	.global-header{
+		padding-top: 25px;
+		background-color: #2b2c3a;
+		height: 50px;
+	}
+
+	.global-menu{
+		float: right;
+		padding-right: 150px;
+	}
+	.global-menu ul{
+		display: table;	
+		list-style-type: none;
+		table-layout: fixed;
+	}
+
+	.global-menu li{
+		display: table-cell;
+		text-align: center;
+		padding: 2px 25px;
+	}
+}
