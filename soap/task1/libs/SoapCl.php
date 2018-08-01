@@ -16,6 +16,6 @@ class SoapCl{
     public function getCurrencies(){
         $client = new SoapClient(COUNTRY_INFO_SERVICE."?WSDL");
         $result = $client->ListOfCurrenciesByCode();
-        return $result->ListOfCurrenciesByCodeResult;
+        return json_encode($result->ListOfCurrenciesByCodeResult);
     }
 }

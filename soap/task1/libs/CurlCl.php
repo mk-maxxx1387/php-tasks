@@ -23,14 +23,6 @@ class CurlCl{
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "");
         $response = curl_exec($ch);
-        /*$xml = new SimpleXMLElement($response);
-        $result = array();
-        foreach($xml->tCurrency as $obj){
-            $result[$obj->sISOCode] = $obj->sName;
-            echo($result[$obj->sISOCode]);
-        }
-        //return $xml->tCurrency;
-        */
-        return simplexml_load_string($response);
+        return json_encode(simplexml_load_string($response));
     }
 }

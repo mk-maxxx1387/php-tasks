@@ -19,27 +19,9 @@ if($action){
     if($param){
         echo $class->$method($param);
     } else {
-        $class->$method();
+        echo $class->$method();
     }
 } else{
     include("templates/index.php");
 }
 
-
-//$result = invertStrCURL();
-//$result = getCurrenciesCURL();
-//foreach($result as $obj){
-//var_dump($obj->sISOCode);
-//}
-
-
-/* SOAP
-   $currencies = getCurrenciesSoap();
-
-   foreach($currencies as $curr){
-   foreach($curr as $param){
-   print_r("ISO Code: ".$param->sISOCode."<br>");
-   print_r("Name: ".$param->sName."<br>");
-   }
-   }
- */
