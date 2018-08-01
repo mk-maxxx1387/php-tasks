@@ -6,9 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<div class="global-wrap">
-		<header class="global-header">
-			<div class="main-logo" >
+	<header class="global-header global-wrap">
+		<div class="global-wrap-container">
+			<div class="main-logo">
 				<img src="./images/logo.png">
 			</div>
 			<nav class="global-menu">
@@ -17,15 +17,18 @@
 					<li><a href="#">About</a></li>
 					<li><a href="#">How it Works</a></li>
 					<li><a href="#">Contact</a></li>
-					<li class="global-menu-signup"><a href="#">+ Sign Up</a></li>
 				</ul>
 			</nav>
-		</header>
-		<content>
-			<div class="content-el-orange">
+			<div class="global-header-signup"><a href="#">+ Sign Up</a></div>
+		</div>
+	</header>
+	<content>
+		<div class="content-el-orange">
+			<div class="global-wrap-container">
 				<div class="el-orange-title">
-					<span>Find the right cloud Hosting without the</span><br>
-					<span>Fluffy white stuff.</span>
+					<p>Find the right cloud Hosting without the
+					Fluffy white stuff.</p>
+					
 				</div>
 				<div class="el-orange-slider">
 					<div class="el-orange-slider-arrow">
@@ -38,13 +41,149 @@
 						<img src="./images/header_slide_arrow_right.png">
 					</div>
 				</div>
-				<div class="el-orange-sel"></div>
+				<div class="el-orange-sel">
+					<select id="" name="discspace-amount" class="discspace-sel">
+						<option disabled>Discspace amount</option>
+						<option value="10">10 GB</option>
+						<option value="20">20 GB</option>
+						<option value="50">50 GB</option>
+						<option value="100">100 GB</option>
+					</select>
+					<select id="" name="oper-system" class="os-sel">
+						<option disabled>Operating system</option>
+						<option value="10">Windows</option>
+						<option value="20">Linux</option>
+						<option value="50">Unix</option>
+						<option value="100">Mac OS</option>
+					</select>
+					<div class="el-orange-sel-col">
+						<div class="custom-sel">
+							<div class="custom-sel-placeholder">
+								<div>
+									<img src="./images/disk_usage_-ico.png">
+								</div>
+								<div>
+									<span>Diskspace Amount</span>
+								</div>
+							</div>
+							<div class="dropdown-arrow-closed"></div>
+						</div>
+					</div>
+					<div class="el-orange-sel-col">
+						<div class="custom-sel">
+							<div class="custom-sel-placeholder">
+								<div>
+									<img src="./images/sky_ico.png">
+								</div>
+								<div>
+									<span>Operating system</span>
+								</div>
+							</div>
+							<div class="dropdown-arrow-closed"></div>
+						</div>
+					</div>					
+				</div>
+				<div class="el-orange-sel-button">
+					<a href="#">+ Get a quote Now</a>
+				</div>
 			</div>
-			<div class="content-element-white"></div>
-			<div class="content-element-blue"></div>
-		</content>
-		<footer class="global-footer"></footer>
-	</div>
-	
+		</div>
+		<div class="content-element-white">
+			<div class="global-wrap-container">
+				<div class="content-element-white-col">
+					<h2>We use 100% Real Clouds</h2>
+					<p class="white-col-orange-text">Required. The horizontal offset of the shadow. A positive value puts the shadow on the right side of the box, a negative value puts the shadow on the left side of the box.</p>
+					<p>Required. The vertical offset of the shadow. A positive value puts the shadow below the box, a negative value puts the shadow above the box.</p>
+					<p>Optional. The spread radius. A positive value increases the size of the shadow, a negative value decreases the size of the shadow.</p>
+				</div>
+				<div class="content-element-white-col">
+					<h2>We don`t hurt kittens</h2>
+					<p class="white-col-orange-text">If you only specify one keyword, the other value will be "center".</p>
+					<p>Required. The vertical offset of the shadow. A positive value puts the shadow below the box, a negative value puts the shadow above the box.</p>
+					<p>Required. The vertical offset of the shadow. A positive value puts the shadow below the box, a negative value puts the shadow above the box. Required. The vertical offset of the shadow.</p>
+					<p>The first value is the horizontal position and the second value is the vertical. The top left corner is 0% 0%. The right bottom corner is 100% 100%. If you only specify one value, the other value will be 50%. . Default value is: 0% 0%.</p>
+				</div>
+			</div>
+		</div>
+		<div class="content-element-blue">
+			<div class="global-wrap-container">
+				<div class="content-element-blue-img">
+					<img src="./images/footer_slide_1.jpg">
+				</div>
+				<div class="content-element-blue-dots">
+					<ul>						
+						<li>
+							<a href="#">
+								<img src="./images/points_slider_bg.png">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="./images/points_slider_bg.png">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="./images/current_points_slider_bg.png">
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<img src="./images/points_slider_bg.png">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</content>
+	<footer class="global-footer">
+		<div class="global-wrap-container">
+			<div class="footer-title">
+				<div class="footer-logo-title">
+					<img src="./images/logo.png">
+					<p>Potato is red. It`s a fact. And you teacher are helicopter.</p>
+				</div>
+				<div class="footer-follow-buttons">
+
+					<a href="#" class="fa fa-rss">
+						<img src="./images/social_1_ico.png">
+					</a>
+
+					<a href="#" class="fa fa-dribbble">
+						<img src="./images/social_2_ico.png">
+					</a>
+					
+					<a href="#" class="fa fa-twitter">
+						<img src="./images/social_3_ico.png">
+					</a>
+
+					<a href="#" class="fa fa-facebook">
+						<img src="./images/social_4_ico.png">
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="global-wrap-container">
+			<div class="footer-feedback-form">
+				<form action="#" method="post">
+					<div class="feedback-form-flds">
+						<div>
+							<input type="text" name="name" class="footer-fld-inp" placeholder="Name">
+							<input type="email" name="email" class="footer-fld-inp" placeholder="Email">
+						</div>			
+						<div>
+							<textarea name="message" class="footer-fld-inp" placeholder="Message"></textarea>
+						</div>
+					</div>
+					<div class="feedback-form-submit">
+						<div class="feedback-submit-butt">
+							<a href="#">Send Message</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
