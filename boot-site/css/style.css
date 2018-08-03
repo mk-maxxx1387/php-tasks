@@ -1,0 +1,268 @@
+a, a:visited {
+    color: rgb(232,102,60);/* !important;*/
+    text-decoration: none !important;
+    background: none;
+}
+
+a:hover, a:active {
+   color: rgb(243,178,157) !important;
+   text-decoration: none !important;
+   background: none;
+}
+
+p{
+	padding: 15px 0px;
+}
+
+footer p{
+	padding: 5px 25px;
+	color: white;
+}
+
+footer p:first-child{
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+
+footer .title-all{
+	color: white;
+	font-size: 20px;
+}
+
+ul.nav li a, ul.nav li a:visited {
+    color: gray !important;
+    background: none !important;
+}
+
+ul.nav li a:hover, ul.nav li a:active, ul.nav li.active a:hover{
+    color: rgb(232,102,60) !important;
+    background: none;
+}
+
+ul.nav li.active a {
+    color: rgb(232,102,60) !important;
+    background: none;
+}
+
+header{
+	height: 78px;
+	vertical-align: middle;
+}
+
+footer{
+	/*position: absolute;
+	bottom: 0;*/
+	width: 100%;
+	background-color: rgb(243,178,157);
+}
+
+.main{
+	padding: 0px;
+	width: 935px;
+	border-left: 12px solid white;
+	border-right: 12px solid white;
+}
+
+footer .main{
+	background-color: rgb(232,102,60);
+}
+
+.logo-main{
+	color: rgb(232,102,60);
+	font-size: 50px;
+}
+
+.logo-main span:last-child{
+	color: rgb(243,178,157);
+}
+
+.title-all, .nav{
+	color: rgb(232,102,60);
+	text-transform: uppercase;
+	font-family: 'Oswald', sans-serif;
+}
+
+/*header .nav{
+	position: absolute;
+	right: 0px;
+}*/
+
+.no-padding{
+	padding: 0px;
+}
+
+header .nav li{
+	margin-top: 20px;
+}
+
+.sect-2 .row{
+	padding-top: 20px;
+	margin: 0px;
+	margin-right: -20px;
+}
+
+.sect-2 .row > div{
+	padding-left: 0px;
+	padding-right: 20px;
+} 
+
+.sect-3 .spr-1-1{
+	background-image: url("../images/sprite-1.png");
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 50px;
+	height: 55px;
+	display: inline-block;
+	float: left;
+}
+
+.sect-3 .spr-1-2{
+	background-image: url("../images/sprite-1.png");
+	background-repeat: no-repeat;
+	background-position: -50px 0px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+}
+
+.sect-3 .spr-1-3{
+	background-image: url("../images/sprite-1.png");
+	background-repeat: no-repeat;
+	background-position: -100px 0px;
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+}
+
+.sect-3 h3{
+	display: inline-block;
+	margin: 0px;
+	font-size: 19px;
+}
+
+.sect-3 .main{
+	padding-top: 40px;
+}
+
+.sect-4 h3 {
+  width: 100%;
+  font-weight: normal; 
+  text-align: left;
+  position: relative;
+  font-size: 18px;
+}
+
+.sect-4 h3 span {
+  background: #fff; 
+  margin-right: 15%;
+  padding-right: 20px;
+
+}
+
+.sect-4 h3:before {
+  content: "";
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  height: 18px;
+  background-image: url("../images/title-bg.png");
+}
+
+.sect-4 .main{
+	padding: 20px 0px;
+}
+
+.sect-4 .row{
+	padding-top: 20px;
+	margin: 0px;
+	margin-right: -15px;
+	padding-bottom: 40px;
+}
+
+.sect-4 .row .col-md-3{
+	padding-left: 0px;
+	padding-right: 15px;
+}
+
+.sect-4-desc{
+	border: 1px solid #c5c5c5;
+	border-top: none;
+	padding: 10px 10px;
+}
+
+.sect-4-desc span:first-child{
+	color: #c5c5c5;
+	font-size: 18px;
+}
+
+.sect-4-desc span:last-child{
+	font-size: 12px;
+}
+
+a.butt-orange{
+	text-transform: uppercase;
+	color: white;
+	background-color: rgb(232,102,60);
+	font-family: 'Oswald', sans-serif;
+	padding: 5px 15px;
+    font-size: 13px;
+}
+
+footer .twitter-wiget ul{
+	padding-left: 0px;
+}
+
+footer .twitter-wiget ul p{
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+footer .twitter-wiget li{
+	list-style: none;
+	padding-bottom: 20px;
+}
+
+footer .twitter-wiget li span{
+	color: rgb(243,178,157);
+}
+
+footer .twitter-wiget p:last-child > span{
+	color: rgb(243,178,157);
+}
+
+footer .spr{
+	background-image: url("../images/sprite-2.png");
+	background-repeat: no-repeat;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}
+
+footer .spr-2-1{
+	background-position: 0px 0px;
+}
+
+footer .spr-2-2{
+	background-position: -31px 0px;
+}
+footer .spr-2-3{
+	background-position: -63px 0px;
+}
+footer .spr-2-4{
+	background-position: -94px 0px;
+}
+footer .spr-2-5{
+	background-position: -126px 0px;
+}
+footer .row .social-icons{
+	margin: 0px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+footer .row .social-icons div{
+	margin: 0px;
+	padding: 0px;
+}
+
+
