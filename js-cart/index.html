@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Main</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.1/vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h2>Buy a great TLDs</h2>
+		<div id="cart-list">
+			<h2>Cart</h2>
+			<ol>
+				<li v-for="(product, i) in cart">
+					{{ product.name }}
+					{{ product.price }}
+					<button v-on:click="removeFromCart(i)">-</button>
+				</li>
+			</ol>
+		</div>
+		<div id="prod-list">
+			<table>
+				<tr>
+					<th>TLD</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+				<tr v-for="(product, i) in products">
+					<td>{{ product.name }}</td>
+					<td>{{ product.price }}</td>
+					<td><button @click="addToCart(i)">+</button></td>		
+				</tr>
+			</table>
+		</div>
+</div>
+	
+	<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
