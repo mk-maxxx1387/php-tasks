@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calendar</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+</head>
+<body >
+	<div id='app'>
+
+		<!--<button v-on:click="buildCalendar(2018, 8)">click</button>-->
+		<table>
+			<tr>
+				<th v-for="(day, i) in weekDays">
+					{{day}}
+				</th>
+			</tr>
+			<tr v-for="(week,i) in monthArr">
+				<td v-for="day in week">
+					<span v-if="day == null"></span>
+					<span v-else>{{day.day}}</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
