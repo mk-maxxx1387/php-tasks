@@ -9,15 +9,25 @@
 		<h2>Buy a great TLDs</h2>
 		<div id="cart-list">
 			<h2>Cart</h2>
-			<ol>
-				<li v-for="(product, i) in cart">
-					{{ product.name }}
-					{{ product.price }}
-					<button v-on:click="removeFromCart(i)">-</button>
-				</li>
-			</ol>
+			<table>
+				<tr>
+					<th>TLD</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+				<tr v-for="(product, i) in cart">
+					<td>{{ product.name }}</td>
+					<td>${{ product.price }}</td>
+					<td><button @click="removeFromCart(i)">x</button></td>		
+				</tr>
+				<tr>
+					<td><h3>Total price:</h3></td>
+					<td colspan="2"><h3>${{cartTotalPrice}}</h3></td>
+				</tr>
+			</table>
 		</div>
 		<div id="prod-list">
+			<h2>Products list</h2>
 			<table>
 				<tr>
 					<th>TLD</th>
@@ -26,7 +36,7 @@
 				</tr>
 				<tr v-for="(product, i) in products">
 					<td>{{ product.name }}</td>
-					<td>{{ product.price }}</td>
+					<td>${{ product.price }}</td>
 					<td><button @click="addToCart(i)">+</button></td>		
 				</tr>
 			</table>

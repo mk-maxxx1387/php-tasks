@@ -20,12 +20,12 @@ let app = new Vue({
         	{
         		id: 4,
         		name: "Tld .cafe",
-        		price: "10.00"
+        		price: "10.99"
         	},
         	{
         		id: 5,
         		name: "Tld .club",
-        		price: "10.00"
+        		price: "10.87"
         	},
         	{
         		id: 6,
@@ -35,6 +35,15 @@ let app = new Vue({
 
         ],
         cart: [] 
+    },
+    computed: {
+        cartTotalPrice: function(){
+            let price = 0;
+            this.cart.forEach(function(product){
+                price+=parseFloat(product.price);
+            });
+            return price.toFixed(2);
+        }
     },
     mounted(){
     	if (localStorage.getItem('cart')) {
