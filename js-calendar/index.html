@@ -8,6 +8,16 @@
 	<div id='app'>
 
 		<!--<button v-on:click="buildCalendar(2018, 8)">click</button>-->
+		<div>
+			<button @click="prewYear()"><<</button>
+			<span><b>{{selectedDate.year}}</b></span>
+			<button @click="nextMonth()">>></button>
+			<br>
+			<button @click="prewMonth()"><</button>
+			<span><b>{{months[selectedDate.month]}}</b></span>
+			<button @click="nextMonth()">></button>
+			
+		</div>
 		<table>
 			<tr>
 				<th v-for="(day, i) in weekDays">
