@@ -3,6 +3,7 @@
 <head>
 	<title>Calendar</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body >
 	<div id='app'>
@@ -11,7 +12,7 @@
 		<div>
 			<button @click="prewYear()"><<</button>
 			<span><b>{{selectedDate.year}}</b></span>
-			<button @click="nextMonth()">>></button>
+			<button @click="nextYear()">>></button>
 			<br>
 			<button @click="prewMonth()"><</button>
 			<span><b>{{months[selectedDate.month]}}</b></span>
@@ -26,11 +27,53 @@
 			</tr>
 			<tr v-for="(week,i) in monthArr">
 				<td v-for="day in week">
-					<span v-if="day == null"></span>
-					<span v-else>{{day.day}}</span>
+					<!--
+					<template v-if="day == null">
+					</template>	 	
+					<template v-if="day.class == 'today'">
+					</template>
+					<template v-else-if="day.class == 'holiday'">
+						
+					</template>
+					<template v-else-if="day.class == 'planned'">
+						<span class="planned"></span>{{day.day}}
+						
+					</template>	
+					-->
+					<template v-if="day == null">
+					</template>
+					<template v-else="">
+						<template v-if="day.isAccess">
+							<div @click.stop="showEvents(day.day)" v-bind:class="{today: day.isToday, planned: day.isPlanned, holiday: day.isHoliday}">
+							{{day.day}}</div>
+						</template>
+						<template v-else>
+							<div v-bind:class="{today: day.isToday, planned: day.isPlanned, holiday: day.isHoliday}">{{day.day}}</div>
+						</template>
+					</template>	 
 				</td>
 			</tr>
 		</table>
+		<div>			
+			<template v-if="this.selectedDate.day">
+				<h2>{{this.dayOfWeek()}}, {{this.selectedDate.day}}</h2>
+				<template>
+					<table>
+						<tr v-for="(event,i) in this.currEvents">
+							<td>{{event.name}}</td>
+							<td><button @click="removeEvent(i)">Delete</button></td>
+						</tr>
+					</table>
+				</template>
+				<h2>Add event</h2>
+				<div style=>
+					<input v-model="eventName" type="text" name="event-name" requried minlength="5">
+					<button @click="addEvent()">Add event</button>
+				</div>
+				
+			</template>
+			
+		</div>
 	</div>
 	
 	<script type="text/javascript" src="js/main.js"></script>

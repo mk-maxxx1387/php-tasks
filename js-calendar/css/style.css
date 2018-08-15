@@ -1,0 +1,18 @@
+.today{
+	background: green !important;
+	color: white;
+}
+
+.holiday{
+	background: orange;
+	color: white;
+}
+
+.planned{
+	background: gray;
+	color: white;
+}
+
+tr div {
+	cursor: pointer;
+}
