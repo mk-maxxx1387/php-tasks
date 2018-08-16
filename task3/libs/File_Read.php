@@ -22,15 +22,15 @@ class File_Read {
             return $file;
 
         }
-        $sngl->isError = true;
-        $sngl->msg = ERR_1;
+        $this->sngl->isError = true;
+        $this->sngl->msg = ERR_1;
         return false;
     }
 
     public function getFileContent(){
         if(!is_readable($this->filePath)){
-            $sngl->isError = true;
-            $sngl->msg = ERR_1;
+            $this->sngl->isError = true;
+            $this->sngl->msg = ERR_1;
             return;
         }
 
@@ -43,8 +43,8 @@ class File_Read {
         if(array_key_exists(($index-1), $fcontent)){
             return $fcontent[$index-1];
         }
-        $sngl->isError = true;
-        $sngl->msg = ERR_2.count($fcontent);
+        $this->sngl->isError = true;
+        $this->sngl->msg = ERR_2.count($fcontent);
         return;
     }
 
@@ -54,8 +54,8 @@ class File_Read {
         if(isset($char)){
             return $char;
         }
-        $sngl->isError = true;
-        $sngl->msg = ERR_3.strlen($str);
+        $this->sngl->isError = true;
+        $this->sngl->msg = ERR_3.strlen($str);
         return;
     }
 
@@ -69,8 +69,8 @@ class File_Read {
             $this->fileContent = $fcontent;
             return $this->getStrByIndex($strIndex);
         }
-        $sngl->isError = true;
-        $sngl->msg = ERR_2.count($fcontent);
+        $this->sngl->isError = true;
+        $this->sngl->msg = ERR_2.count($fcontent);
         return;
     }
 
@@ -84,12 +84,14 @@ class File_Read {
     }
 
     public function saveFile(){
-        if(is_writable){
+        if(is_writable(FILE_PATH) && is_readable(FILE_PATH))
+		{
             file_put_contents(FILE_PATH, $this->fileContent);
             return true;
         }
-        $sngl->isError = true;
-        $sngl->msg = ERR_1;
+		
+        $this->sngl->isError = true;
+        $this->sngl->msg = ERR_1;
         return false;
     }
 }
