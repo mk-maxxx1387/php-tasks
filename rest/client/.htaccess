@@ -1,5 +1,0 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On 
-    RewriteBase /api/ 
-    RewriteRule (.*) http://192.168.0.15/~user3/php/rest/server/$1 [L]
-</IfModule>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+name="CarService" 
+targetNamespace="urn:CarService" 
+xmlns:tns="http://www.w3.org/2001/XMLSchema"  
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified"
+		xmlns:tns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:s="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="urn:CarService">
+			<s:complexType name="Car">
+				<s:all>
+					<s:element minOccurs="0" maxOccurs="1" name="id" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="mark" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="model" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="year" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="max_speed" type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="engine_size" type="s:decimal" />
+					<s:element minOccurs="0" maxOccurs="1" name="color" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="price" type="s:decimal" />
+				</s:all>
+			</s:complexType>
+
+			<s:complexType name="ArrayOfCar">
+				<s:all>
+					<s:element minOccurs="0" maxOccurs="unbounded" name="Car" type="tns:Car" />
+				</s:all>
+			</s:complexType>
+
+			<s:complexType name="Filter">
+				<s:all>
+					<s:element minOccurs="0" maxOccurs="1" name="mark" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="model" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="year" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="max_speed" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="engine_size" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="color" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="price" type="s:string" />
+				</s:all>
+			</s:complexType>
+			
+			<s:element name="int">
+				<s:complexType>
+					<s:all>
+						<s:element minOccurs="0" maxOccurs="1" name="id" type="s:int" />
+					</s:all>
+				</s:complexType>
+			</s:element>
+
+			<s:element name="Car">
+				<s:complexType>
+					<s:all>
+						<s:element minOccurs="1" maxOccurs="1" name="car" type="tns:Car" />
+					</s:all>
+				</s:complexType>
+			</s:element>
+
+			<s:element name="Filter">
+				<s:complexType>
+					<s:all>
+						<s:element minOccurs="0" maxOccurs="1" name="filter" type="tns:Filter" />
+					</s:all>
+				</s:complexType>
+			</s:element>
+
+			<s:element name="ArrayOfCar">
+				<s:complexType>
+					<s:all>
+						<s:element minOccurs="1" maxOccurs="1" name="arrayOfCar" type="tns:ArrayOfCar" />
+					</s:all>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+
+	<wsdl:message name="GetCarByIdSoapIn">
+		<wsdl:part name="id" element="tns:int" />
+	</wsdl:message>
+	<wsdl:message name="GetCarByIdSoapOut">
+		<wsdl:part name="car" element="tns:Car" />
+	</wsdl:message>
+
+	<wsdl:message name="GetCarsByFilterSoapIn">
+		<wsdl:part name="filter" element="tns:Filter" />
+	</wsdl:message>
+	<wsdl:message name="GetCarsByFilterSoapOut">
+		<wsdl:part name="arrayOfCar" element="tns:ArrayOfCar" />
+	</wsdl:message>
+
+	<wsdl:portType name="CarServicePort">
+		<wsdl:operation name="GetCarById">
+			<wsdl:input message="tns:GetCarByIdSoapIn" />
+			<wsdl:output message="tns:GetCarByIdSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetCarsByFilter">
+			<wsdl:input message="tns:GetCarsByFilterSoapIn" />
+			<wsdl:output message="tns:GetCarsByFilterSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="CarServiceBinding" type="tns:CarServicePort">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetCarById">
+			<soap:operation soapAction="urn:CarService" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetCarsByFilter">
+			<soap:operation soapAction="urn:CarService" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="CarService">
+		<wsdl:port name="CarServicePort" binding="tns:CarServiceBinding">
+			<soap:address location="http://wsdl_serv/car_service.php" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
