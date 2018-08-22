@@ -16,6 +16,9 @@ class DB {
             $res = $this->pdo->query($query, PDO::FETCH_ASSOC);
             return $res->fetchAll();
         }
+        //var_dump($data);
         $sth = $this->pdo->prepare($query);
+        $sth->execute($data);
+        return $sth->fetch(PDO::FETCH_ASSOC);
     }
 }

@@ -1,6 +1,6 @@
-<limit GET POST PUT DELETE>
+<Limit GET POST PUT DELETE>
     Allow from all
-</limit>
+</Limit>
 
 RewriteEngine On 
 RewriteBase /~user3/php/rest/server/api/orders/ 

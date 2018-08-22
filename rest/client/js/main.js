@@ -1,18 +1,20 @@
 $(document).ready(function(){
-    $("#login-form").hide();
+    $("#login-form-cont").hide();
     getAllCars();
     $( "#login" ).on( "click", function() {
-        $("#login-form").show();
+        $("#login-form-cont").show();
         $("#login").hide();
     });
     $("#login-cancel").on("click", function(){
-        $("#login-form").hide();
+        $("#login-form-cont").hide();
         $("#login").show();
     });
-    $("#login-form").on("submit", function(){
+    $("#login-form").on("submit", function(event){
         event.preventDefault();
-        let username = $("login-form").find()
-        login();
+        //let username = $("login-form").find()
+        //console.log($(this));
+        let formData = $("#login-form").serializeArray();
+        login(formData);
     });
 });
 
@@ -50,14 +52,28 @@ let buildCarsList = function(data){
     });
 }
 
-let login = function(username, password){
-    type: 'GET',
-    url: '/api/login',
-    beforeSend: function(){
-        xhr.setRequestHeader ("Authorization", "Basic " + btoa(username + ":" + password));
-    },
-    success: function(){}
-}
+let login = function(params){
+    $.ajax({
+        type: 'POST',
+        url: 'api/users/login',
+        beforeSend: function(xhr){
+            xhr.setRequestHeader ("Authorization", "Basic " + btoa(params[0].value + ":" + params[1].value));
+        },
+        success: function(data){
+            console.log(data);
+        },
+        error:{
+        },
+        statusCode: {
+            401: function(){
+                alert('401');
+            },
+            404: function(){
+                alert('404');
+            }
+        }
+    });
+   }
 
 /*let dialog = $( "#dialog-form" ).dialog({
     autoOpen: false,
