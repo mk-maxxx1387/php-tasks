@@ -11,11 +11,11 @@ class Users
     }
     //select
     public function getUsers($param=false){
-        /*$query = "SELECT * FROM `carshop_cars`";
-        if($param){
-            $query .= "WHERE id = $param";
-        }
-        return $this->db->query($query);*/
+
+    }
+
+    public function getUserIdByToken(){
+
     }
     //insert
     public function postUsers(){
@@ -34,16 +34,28 @@ class Users
             AND password = ?
         ";
         $res = $this->db->query($query, array($login, $pwd));
+        
         if(!$res){
-            header('WWW-Authenticate: Basic realm="Restricted area"');
-            header('HTTP/1.1 401 Unauthorized');
-            exit;
+            http_response_code(401);
+            echo json_encode(array("error" => "Wrong login or password"));
+            return;
+        } else {
+            $token = $this->createToken($res['id']);
+            http_response_code(200);
+            var_dump(json_encode($_SERVER['Authorization']));
+            echo json_encode(array("user_id" => $res['id'], "token" => $token, "login" => $res['login']));
         }
-        return $res;
-    
-        //var_dump($res);
+
     }
     public function deleteUsers(){}
+
+    public function createToken($userId) {
+        $date = date_create();
+        $token = sha1(date_timestamp_get($date).$userId);
+        $query = "INSERT INTO `carshop_user_tokens` (user_id, token) VALUES (?, ?)";
+        $this->db->query($query, array($userId, $token));
+        return $token;
+    }
 }
 
 RESTServer::start(new Users());

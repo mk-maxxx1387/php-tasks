@@ -21,10 +21,6 @@ class RESTServer
 
         if(isset($class)){
             $func = strtolower($method).ucfirst($class);
-            if($param){
-                //var_dump($_SERVER);
-                //return;
-            }
             //make validation of parameters
             self::setMethod($func, $param);
             //prepare data to responce (select data type)
@@ -33,16 +29,7 @@ class RESTServer
 
     protected static function setMethod($func, $param=false){
         if(method_exists(self::$repo, $func)){
-            $res = self::$repo->$func($param);
-            //var_dump($res);
-            //exit();
-            //echo json_encode($res);
-            /*if($param == 'login'){
-                echo $_SERVER['PHP_AUTH_USER'];
-            }*/
-            if($res){
-                echo json_encode($res);
-            }
+            self::$repo->$func($param);
         }
     }
     

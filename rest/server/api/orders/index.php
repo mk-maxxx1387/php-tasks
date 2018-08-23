@@ -10,13 +10,15 @@ class Orders {
     }
 
     public function getOrders($param=false){
+        var_dump($_SERVER['Authorization']);
+        die();
         $query = "SELECT * FROM `carshop_orders`";
         if($param){
             $data = array($param);
             $query .= "WHERE user_id = ?";
             return $this->db->query($query, $data);
-        }
-        return $this->db->query($query);
+        } 
+        echo $this->db->query($query);
     }
 
     public function postOrders(){
