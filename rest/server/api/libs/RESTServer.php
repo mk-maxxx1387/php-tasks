@@ -30,6 +30,9 @@ class RESTServer
     protected static function setMethod($func, $param=false){
         if(method_exists(self::$repo, $func)){
             self::$repo->$func($param);
+        } else {
+            http_response_code(404);
+            echo json_encode(array("message" => "not found"));
         }
     }
     

@@ -1,6 +1,7 @@
 <?php
 
 include_once("../libs/RESTServer.php");
+include_once("../libs/Token.php");
 
 class Users 
 {
@@ -11,10 +12,6 @@ class Users
     }
     //select
     public function getUsers($param=false){
-
-    }
-
-    public function getUserIdByToken(){
 
     }
     //insert
@@ -40,22 +37,18 @@ class Users
             echo json_encode(array("error" => "Wrong login or password"));
             return;
         } else {
-            $token = $this->createToken($res['id']);
+            $token = Token::createToken($res['id']);
             http_response_code(200);
-            var_dump(json_encode($_SERVER['Authorization']));
-            echo json_encode(array("user_id" => $res['id'], "token" => $token, "login" => $res['login']));
+            echo json_encode(array("token" => $token, "login" => $res['login']));
         }
 
     }
-    public function deleteUsers(){}
-
-    public function createToken($userId) {
-        $date = date_create();
-        $token = sha1(date_timestamp_get($date).$userId);
-        $query = "INSERT INTO `carshop_user_tokens` (user_id, token) VALUES (?, ?)";
-        $this->db->query($query, array($userId, $token));
-        return $token;
+    
+    public function deleteUsers(){
+        Token::removeToken();
+        
     }
+
 }
 
 RESTServer::start(new Users());

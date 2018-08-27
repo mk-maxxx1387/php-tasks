@@ -11,7 +11,7 @@ class DB {
         return $this->pdo;
     }
 
-    public function query($query, $data = false){
+    public function query($query, $data = false, $query_type = 'one'){
         if(!$data){
             $res = $this->pdo->query($query, PDO::FETCH_ASSOC);
             return $res->fetchAll();
@@ -19,6 +19,12 @@ class DB {
         //var_dump($data);
         $sth = $this->pdo->prepare($query);
         $sth->execute($data);
-        return $sth->fetch(PDO::FETCH_ASSOC);
+        if($query_type == 'one'){
+            return $sth->fetch(PDO::FETCH_ASSOC);
+        } else if($query_type == 'many'){
+            return $sth->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        
     }
 }
