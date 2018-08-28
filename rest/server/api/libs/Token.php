@@ -10,7 +10,8 @@ class Token
         $token = sha1(date_timestamp_get($date).$userId);
         $query = "
             INSERT INTO `carshop_user_tokens` (user_id, token) 
-            VALUES (?, ?)";
+            VALUES (?, ?)
+            ";
         $db->query($query, array($userId, $token));
         return $token;
     }
@@ -44,6 +45,7 @@ class Token
             WHERE token = ? 
         ";
         $res = $db->query($query, array($authToken));
+        var_dump($res);
         return $res;
     }
 }

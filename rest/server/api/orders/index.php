@@ -39,21 +39,22 @@ class Orders {
     }
 
     public function postOrders(){
-        $order = new Order();
-        $order->getOrderFromPost();
-
+        $userId = Token::getUserIdByToken();
         $data = array(
-            $order->carId,
-            $order->userId, 
-            $order->firstName,
-            $order->lastName,
-            $order->payType
+            $_POST['carId'],
+            $userId,
+            $_POST['firstName'],
+            $_POST['lastName'], 
+            $_POST['payType']
         );
 
         $query = "
             INSERT INTO `carshop_orders`(car_id, user_id, first_name, last_name, pay_type) 
             VALUES (?, ?, ?, ?, ?)";
-        return $this->db->query($query, $data);
+        $res = $this->db->query($query, $data);
+
+        http_response_code(200);
+        echo json_encode("Order was added");
     }
 
     public function putOrders(){}

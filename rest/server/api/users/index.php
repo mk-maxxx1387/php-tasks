@@ -34,7 +34,7 @@ class Users
         
         if(!$res){
             http_response_code(401);
-            echo json_encode(array("error" => "Wrong login or password"));
+            echo json_encode(array("message" => "Wrong login or password"));
             return;
         } else {
             $token = Token::createToken($res['id']);
@@ -45,10 +45,15 @@ class Users
     }
     
     public function deleteUsers(){
-        Token::removeToken();
-        
+        $res = Token::removeToken();
+        if($res){
+            http_response_code(200);
+            echo json_encode(array("message" => "Logout successful"));
+        } else {
+            http_response_code(401);
+            echo json_encode(array("message" => "Token not found"));
+        }
     }
-
 }
 
 RESTServer::start(new Users());

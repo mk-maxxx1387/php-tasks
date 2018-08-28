@@ -1,0 +1,94 @@
+h2,h3{
+    margin: 0px;
+    padding: 20px;
+}
+html{
+    font-family: 'PT Sans Caption', sans-serif;
+}
+body{
+    margin: 0px;
+}
+#header {
+    margin: -8px;
+    background: #404040;
+    color: #ffcb37;
+    width: 100%;
+    height: auto;
+    padding: 20px; 
+}
+
+#car-list > div {
+    padding: 20px;
+    
+}
+
+#car-list .car-mark{
+    font-size: 40px;
+    color: grey;
+}
+
+#car-list .car-model{
+    font-size: 25px;
+    color: maroon;
+    margin-bottom: 10px;
+}
+
+#car-list .car-butt-buy{
+    width: 301px;
+    height: 50px;
+    text-align: center;
+    /* vertical-align: middle; */
+    background: #404040;
+    color: #ffcb37;
+    font-size: 25px;
+    padding-top: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#car-list .car-butt-buy:hover{
+    background: #ffcb37;
+    color: #404040;
+}
+
+#orders-list > table {
+    width: 100%;
+    text-align: center;
+}
+
+#orders-list > table th {
+    background: #fc0;
+    border: 1px solid #333; 
+    padding: 5px;
+}
+
+#orders-list > table td {
+    padding: 5px;
+}
+
+#login-form > input {
+    margin-bottom: 5px;
+}
+
+#login-form > #login {
+    margin-left: 23px;
+}
+
+#order-form-cont {
+    background: #404040;
+    color: #ffcb37;
+    width: 100%;
+    padding-bottom: 30px;
+}
+
+#order-form-cont > #order-form{
+    margin: 0 18%;
+}
+
+#order-form-cont > #order-form > {
+    margin: 0 18%;
+}
+
+.order-form-but-subm{
+    margin-top: 14px;
+}

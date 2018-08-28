@@ -1,9 +1,9 @@
-<Limit GET POST PUT DELETE HEAD OPTIONS>
+<Limit PUT DELETE>
     Allow from all
 </Limit>
 
 RewriteEngine On 
-RewriteBase /~user3/php/rest/server/api/users/ 
+RewriteBase /~user3/php/rest/server/api/users/
 RewriteCond %{REQUEST_FILENAME} !-f 
 RewriteCond %{REQUEST_FILENAME} !-d 
 RewriteRule ^.*$ index.php 

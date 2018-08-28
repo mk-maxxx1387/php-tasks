@@ -1,9 +1,82 @@
 $(document).ready(function(){
    init();
+   $("#login-butt").on( "click", function(event) {
+        event.preventDefault();
+        $("#login-form-cont").show();
+        $("#login-butt").hide();
+    });
+    $("#logout-butt").on( "click", function(event) {
+        event.preventDefault();
+        logout();
+        $("#login-butt").show();
+        $("#registr-butt").show();
+        $("#orders-list").hide();
+        $("#orders-list").text('');
+        $("#car-list").show();
+        init();
+    });
+    $("#orders-butt").on("click", function(event){
+        event.preventDefault();
+        getOrders();
+        if($("#orders-butt").text() == 'Show orders'){
+            $("#orders-list").show();
+            $("#orders-butt").text('Hide orders');
+        } else {
+            $("#orders-list").hide();
+            $("#orders-butt").text('Show orders');
+        }
+        
+    });
+    $("#cars-butt").on("click", function(event){
+        event.preventDefault();
+        buildCarsList();
+        $("#orders-list").hide();
+        $("#orders-list").text('');
+        $("#car-list").show();
+        //$("#cars-butt").hide();
+        $("#orders-butt").show();
+    });
+    $("#login-cancel").on("click", function(event){
+        event.preventDefault();
+        $("#login-form")[0].reset();
+        $("#login-form-cont").hide();
+        $("#login-butt").show();
+    });
+    $("#order-cancel").on("click", function(event){
+        event.preventDefault();
+        $("#order-form")[0].reset();
+        $("#order-form-cont").hide();
+        $("#car-list").show();
+    });
+    $("#login-form").on("submit", function(event){
+        event.preventDefault();
+        let formData = $("#login-form").serializeArray();
+        $("#login-form")[0].reset();
+        login(formData);
+        
+    });
+    $("#order-form").on("submit", function(event){
+        event.preventDefault();
+        let orderData = $("#order-form").serializeArray();
+        $("#order-form")[0].reset();
+        addOrder(orderData);
+        $("#order-cancel").click();
+    });
+
+    
 });
+
+let showOrderForm = function(carId){
+    $("#car-list").hide();
+    $("#order-form-cont").show();
+    $("#order-car-id").val(carId);
+}
 
 let init = function(){
     $("#car-list").text('');
+    $("#orders-list").text('');
+    $("#orders-list").hide();
+    $("#order-form-cont").hide();
     buildHeader();
     buildCarsList();
 }
@@ -11,7 +84,7 @@ let init = function(){
 let getAllCars = function(){
     $.ajax({
         type: "GET",
-        url: "api/cars",
+        url: "api/cars/",
         async: false
     }).done(function(data){
         localStorage.setItem('cars_list', data);
@@ -21,7 +94,7 @@ let getAllCars = function(){
 let getOrders = function(){
     $.ajax({
         type: "GET",
-        url: "api/orders",
+        url: "api/orders/",
         async: false,
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", localStorage.getItem("token"));
@@ -31,13 +104,46 @@ let getOrders = function(){
             buildOrders(data);
         },
         statusCode: {
+            401: function(data){
+                logout();
+            },
+            404: function(data){
+                alert('404');
+            },
+            400: function(data){
+                alert('400');
+            },
+            204: function(data){
+                alert('204');
+            }
+        }
+    });
+}
+
+let addOrder = function(orderData){
+    //console.log(orderData);
+    $.ajax({
+        type: "POST",
+        url: "api/orders/",
+        async: false,
+        data: orderData,
+        beforeSend: function(xhr){
+            xhr.setRequestHeader("Authorization", localStorage.getItem("token"));
+        },
+        success: function(data){
+            getOrders();
+        },
+        statusCode: {
             401: function(){
                 alert('401');
             },
-            404: function(){
+            404: function(data){
                 alert('404');
             },
-            204: function(){
+            400: function(data){
+                alert('400');
+            },
+            204: function(data){
                 alert('204');
             }
         }
@@ -47,7 +153,7 @@ let getOrders = function(){
 let login = function(params){
     $.ajax({
         type: 'PUT',
-        url: 'api/users',
+        url: 'api/users/',
         async: false,
         beforeSend: function(xhr){
             xhr.setRequestHeader ("Authorization", "Basic " + btoa(params[0].value + ":" + params[1].value));
@@ -72,9 +178,7 @@ let login = function(params){
 }
 
 let logout = function(){
-    localStorage.removeItem("token");
-    localStorage.removeItem("login");
-    init();
+    
     $.ajax({
         type: 'DELETE',
         url: 'api/users',
@@ -83,20 +187,19 @@ let logout = function(){
             xhr.setRequestHeader("Authorization", localStorage.getItem("token"));
         },
         success: function(){
-            
+            localStorage.removeItem("token");
+            localStorage.removeItem("login");
+            init();
         }
     });
 }
 
-let addOrder = function(carId){
-
-}
-
 let buildHeader = function(){
     $("#login-form-cont").hide();
+    $("#order-form-cont").hide();
     $("#logout-butt").hide();
     $("#orders-butt").hide();
-    $("#cars-butt").hide();
+    //$("#cars-butt").hide();
     $("#hello").text('');
     if(checkAuth()){
         $("#login-butt").hide();
@@ -105,46 +208,6 @@ let buildHeader = function(){
         $("#orders-butt").show();
         $("#hello").text("Hello, "+localStorage.getItem('login'));
     }
-
-    //events
-    $("#login-butt").on( "click", function() {
-        $("#login-form-cont").show();
-        $("#login-butt").hide();
-    });
-    $("#logout-butt").on( "click", function() {
-        //$("#login-form-cont").show();
-        logout();
-        $("#login-butt").show();
-        $("#registr-butt").show();
-        $("#orders-list").hide();
-        $("#orders-list").text('');
-        $("#car-list").show();
-        init();
-    });
-    $("#login-cancel").on("click", function(event){
-        event.preventDefault();
-        $("#login-form-cont").hide();
-        $("#login-butt").show();
-    });
-    $("#login-form").on("submit", function(event){
-        event.preventDefault();
-        let formData = $("#login-form").serializeArray();
-        login(formData);
-        
-    });
-    $("#orders-butt").on("click", function(){
-        getOrders();
-        $("#orders-list").show();
-        $("#car-list").hide();
-        $("#cars-butt").show();
-        $("#orders-butt").hide();
-    });
-    $("#cars-butt").on("click", function(){
-        buildCarsList();
-        $("#car-list").show();
-        $("#cars-butt").hide();
-        $("#orders-butt").show();
-    });
 }
 
 let buildCarsList = function(){
@@ -153,11 +216,13 @@ let buildCarsList = function(){
     }
     let data = JSON.parse(localStorage.getItem('cars_list'));
     $("#car-list").text("");
+    $("#car-list").append($("<h2>").text('Cars'));
+    $("#car-list").append($("<hr>"));
     $.each(data, function(i, item){
         let div = $("<div></div>");
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Model: ${item.model}</span><br>`);
-
+        div.append(`<span class="car-mark">${item.mark}</span><br>`);
+        div.append(`<span class="car-model">${item.model}</span><br>`);
+ 
         div.append(`<span>Year: ${item.year}</span><br>`);
 
         div.append(`<span>Engine size: ${item.engine_size}</span><br>`);
@@ -168,16 +233,15 @@ let buildCarsList = function(){
 
         div.append(`<span>Price: ${item.price}</span><br>`);
         if(checkAuth()){
-            div.append(`<button onclick="addOrder(${item.id})">Order</button>`);
+            div.append(`<div class="car-butt-buy" onclick="showOrderForm(${item.id})">Order</div>`);
         }
-        div.append($("<hr>"));
         $("#car-list").append(div);
     });
 }
 
 let buildOrders = function(orders){
     $("#orders-list").text("");
-
+    $("#orders-list").append($("<h2>").text('Orders'));
     let $thead = $("<tr>").append(
         $("<th>").text("Mark"),
         $("<th>").text("Model"),
@@ -186,48 +250,24 @@ let buildOrders = function(orders){
         $("<th>").text("Pay type")
     );
 
+
     let $table = $("<table>").append($thead);
-    console.log(orders);
 
     $.each(orders, function(i, item){
         let $row = $("<tr>").append(
-            $("<th>").text(item.mark),
-            $("<th>").text(item.model),
-            $("<th>").text(item.year),
-            $("<th>").text(item.price),
-            $("<th>").text(item.pay_type),
+            $("<td>").text(item.mark),
+            $("<td>").text(item.model),
+            $("<td>").text(item.year),
+            $("<td>").text(item.price),
+            $("<td>").text(item.pay_type),
         );
         $table.append($row);    
     });
     $("#orders-list").append($table);
-    console.log($("#order-list"));
-    //let tr = $("<tr>");
-    //let th = $("<th></th>");
-    //console.log(Object.keys(orders));
-    /*
-    th.text("")
-    $.each(data, function(i, item)){
-        let div = $("<div></div>");
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-        div.append(`<span>Mark: ${item.mark}</span><br>`);
-    }*/
+    $("#orders-list").append($("<hr>"));
 }
 
-
-
-/*let showAuthInfo = function(){
-    //alert(1);
-    init();
-    
-}*/
-
 let checkAuth = function(){
-    //let id = localStorage.getItem('user_id');
     let token = localStorage.getItem('token')
     if(token){
         return true;
