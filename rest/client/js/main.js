@@ -1,9 +1,25 @@
 $(document).ready(function(){
-   init();
-   $("#login-butt").on( "click", function(event) {
+    init();
+    $("#login-butt").on( "click", function(event) {
         event.preventDefault();
         $("#login-form-cont").show();
         $("#login-butt").hide();
+        $("#register-butt").hide();
+        $("#register-form-cont").hide();
+    });
+    $("#register-butt").on("click", function(event){
+        event.preventDefault();
+        $("#register-butt").hide();
+        $("#register-form-cont").show();
+        $("#login-form-cont").hide();
+        $("#login-butt").hide();
+    });
+    $("#register-cancel").on("click", function(event){
+        event.preventDefault();
+        $("#register-butt").show();
+        $("#register-form-cont").hide();
+        $("#login-butt").show();
+        
     });
     $("#logout-butt").on( "click", function(event) {
         event.preventDefault();
@@ -41,6 +57,7 @@ $(document).ready(function(){
         $("#login-form")[0].reset();
         $("#login-form-cont").hide();
         $("#login-butt").show();
+        $("#register-butt").show();
     });
     $("#order-cancel").on("click", function(event){
         event.preventDefault();
@@ -62,6 +79,19 @@ $(document).ready(function(){
         addOrder(orderData);
         $("#order-cancel").click();
     });
+    $("#register-form").on("submit", function(event){
+        event.preventDefault();
+        let registerData = $("#register-form").serializeArray();
+        $( "#myform" ).validate({
+            rules: {
+                regPassword: "required",
+                regPasswordRepeat: {
+                equalTo: "#regPassword"
+              }
+            }
+        });
+        registration(registerData);
+    });
 
     
 });
@@ -72,11 +102,7 @@ let showOrderForm = function(carId){
     $("#order-car-id").val(carId);
 }
 
-let init = function(){
-    $("#car-list").text('');
-    $("#orders-list").text('');
-    $("#orders-list").hide();
-    $("#order-form-cont").hide();
+let init = function(){ 
     buildHeader();
     buildCarsList();
 }
@@ -150,6 +176,10 @@ let addOrder = function(orderData){
     });
 }
 
+let registration = function(){
+    
+}
+
 let login = function(params){
     $.ajax({
         type: 'PUT',
@@ -195,6 +225,10 @@ let logout = function(){
 }
 
 let buildHeader = function(){
+    //$("#car-list").text('');
+    $("#orders-list").text('');
+    $("#orders-list").hide();
+    $("#register-form-cont").hide();
     $("#login-form-cont").hide();
     $("#order-form-cont").hide();
     $("#logout-butt").hide();
@@ -231,7 +265,7 @@ let buildCarsList = function(){
 
         div.append(`<span>Color: ${item.color}</span><br>`);
 
-        div.append(`<span>Price: ${item.price}</span><br>`);
+        div.append(`<span class="car-price">$${item.price}</span><br>`);
         if(checkAuth()){
             div.append(`<div class="car-butt-buy" onclick="showOrderForm(${item.id})">Order</div>`);
         }

@@ -3,7 +3,10 @@
 <head>
     <title>Car shop</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.js"></script>  
     <script type="text/javascript" src="js/main.js"></script>
+    
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption" rel="stylesheet">
 </head>
@@ -11,7 +14,8 @@
     <div id="header">
         <button id="login-butt">Login</button>
         <button id="logout-butt">Logout</button>
-        <div id="login-form-cont" title="Create new user">
+        <div id="login-form-cont">
+            <h2>Login</h2>
             <form id="login-form">
                 <label for="email">Email</label>
                 <input type="text" name="login" id="login"  value="" pattern="[A-Za-z]{2,50}" required><br>
@@ -22,7 +26,62 @@
                 
             </form>
         </div>
-        <button id="registr-butt">Registration</button>
+        <div id="register-form-cont">
+            <h2>Registration</h2>
+            <form id="register-form">
+                <table class="register-form-table">
+                    <tr>
+                        <td>
+                            <label>First name</label>
+                        </td>
+                        <td>
+                            <input type="text" name="firstName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Last name</label>
+                        </td>
+                        <td>
+                            <input type="text" name="lastName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Login</label>
+                        </td>
+                        <td>
+                            <input type="text" name="login"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Password</label>
+                        </td>
+                        <td>
+                            <input type="password" name="password" id="regPassword"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Repeat password</label>
+                        </td>
+                        <td>
+                            <input type="password" name="passwordRepeat" id="regPasswordRepeat"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="register-form-subm" type="submit" value="Registration">
+                        </td>
+                        <td>
+                            <button id="register-cancel">Back</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <button id="register-butt">Registration</button>
         <button id="orders-butt">Show orders</button>
         <!--<button id="cars-butt">Cars list</button>-->
         <span id="hello"></span>
@@ -50,20 +109,6 @@
             <button id="order-cancel">Back</button>
         </form>
     </div>
-    <!--<div id="register-form-cont">
-        <h2>Registration</h2>
-        <form>
-            <label>First name</label>
-            <input />
-            <label>Last name</label>
-            <input />
-            <label>Login</label>
-            <input />
-            <label>Password</label>
-            <input />
-            <label>Repeat password</label>
-            <input />
-        </form>
-    </div>-->
+    
 </body>
 </html> 

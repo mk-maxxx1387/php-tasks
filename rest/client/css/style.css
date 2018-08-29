@@ -7,6 +7,7 @@ html{
 }
 body{
     margin: 0px;
+    background: #fffce9;
 }
 #header {
     margin: -8px;
@@ -30,6 +31,12 @@ body{
 #car-list .car-model{
     font-size: 25px;
     color: maroon;
+    margin-bottom: 10px;
+}
+
+#car-list .car-price{
+    font-size: 25px;
+    color: rgb(118, 156, 115);
     margin-bottom: 10px;
 }
 
@@ -87,6 +94,10 @@ body{
 
 #order-form-cont > #order-form > {
     margin: 0 18%;
+}
+
+#register-form-table td{
+    padding: 5px;
 }
 
 .order-form-but-subm{
