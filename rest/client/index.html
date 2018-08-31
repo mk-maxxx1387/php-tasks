@@ -3,7 +3,7 @@
 <head>
     <title>Car shop</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.js"></script>  
     <script type="text/javascript" src="js/main.js"></script>
     
@@ -17,13 +17,32 @@
         <div id="login-form-cont">
             <h2>Login</h2>
             <form id="login-form">
-                <label for="email">Email</label>
-                <input type="text" name="login" id="login"  value="" pattern="[A-Za-z]{2,50}" required><br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" value="" pattern="[A-Za-z]{2,50}" required><br>
-                <input type="submit" value="Login">
-                <button id="login-cancel">Back</button>
-                
+                <table>
+                    <tr>
+                        <td>
+                            <label for="login">Login</label>
+                        </td>
+                        <td>
+                            <input type="text" name="login" id="login"  value="" pattern="[A-Za-z0-9]{2,50}" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password</label>
+                        </td>
+                        <td>
+                            <input type="password" name="loginPassword" id="loginPassword" value="" pattern="[A-Za-z0-9]{2,50}" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Login">
+                        </td>
+                        <td>
+                            <button id="login-cancel">Back</button>
+                        </td>
+                    </tr>
+                </table>
             </form>
         </div>
         <div id="register-form-cont">
@@ -35,7 +54,7 @@
                             <label>First name</label>
                         </td>
                         <td>
-                            <input type="text" name="firstName"/>
+                            <input type="text" name="firstName" pattern="[A-Za-z]{2,50}" required/>
                         </td>
                     </tr>
                     <tr>
@@ -43,7 +62,7 @@
                             <label>Last name</label>
                         </td>
                         <td>
-                            <input type="text" name="lastName"/>
+                            <input type="text" name="lastName" pattern="[A-Za-z]{2,50}" required/>
                         </td>
                     </tr>
                     <tr>
@@ -51,15 +70,15 @@
                             <label>Login</label>
                         </td>
                         <td>
-                            <input type="text" name="login"/>
+                            <input type="text" name="login" pattern="[A-Za-z0-9]{4,50}" required/>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label>Password</label>
                         </td>
-                        <td>
-                            <input type="password" name="password" id="regPassword"/>
+                        <td>                    
+                            <input type="password" name="regPassword" id="regPassword" pattern="[A-Za-z0-9]{4,50}" required/>
                         </td>
                     </tr>
                     <tr>
@@ -67,7 +86,7 @@
                             <label>Repeat password</label>
                         </td>
                         <td>
-                            <input type="password" name="passwordRepeat" id="regPasswordRepeat"/>
+                            <input type="password" name="regPasswordRepeat" id="regPasswordRepeat" pattern="[A-Za-z0-9]{4,50}" equalTo="regPassword" required/>
                         </td>
                     </tr>
                     <tr>

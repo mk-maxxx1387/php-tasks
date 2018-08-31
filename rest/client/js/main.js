@@ -1,5 +1,7 @@
 $(document).ready(function(){
     init();
+    formsValidation();
+
     $("#login-butt").on( "click", function(event) {
         event.preventDefault();
         $("#login-form-cont").show();
@@ -66,35 +68,93 @@ $(document).ready(function(){
         $("#car-list").show();
     });
     $("#login-form").on("submit", function(event){
-        event.preventDefault();
-        let formData = $("#login-form").serializeArray();
-        $("#login-form")[0].reset();
-        login(formData);
-        
+        var isvalid = $("#login-form").valid();
+        if (isvalid) {
+            event.preventDefault();
+            let formData = $("#login-form").serializeArray();
+            $("#login-form")[0].reset();
+            login(formData);
+        } 
     });
     $("#order-form").on("submit", function(event){
-        event.preventDefault();
-        let orderData = $("#order-form").serializeArray();
-        $("#order-form")[0].reset();
-        addOrder(orderData);
-        $("#order-cancel").click();
+        var isvalid = $("#login-form").valid();
+        if (isvalid) {
+            event.preventDefault();
+            let orderData = $("#order-form").serializeArray();
+            $("#order-form")[0].reset();
+            addOrder(orderData);
+            $("#order-cancel").click();
+        }
     });
     $("#register-form").on("submit", function(event){
-        event.preventDefault();
-        let registerData = $("#register-form").serializeArray();
-        $( "#myform" ).validate({
-            rules: {
-                regPassword: "required",
-                regPasswordRepeat: {
-                equalTo: "#regPassword"
-              }
-            }
-        });
-        registration(registerData);
+        var isvalid = $("#login-form").valid();
+        if (isvalid) {
+            event.preventDefault();
+            let registerData = $("#register-form").serializeArray();   
+            registration(registerData);
+        }  
     });
 
     
 });
+
+let formsValidation = function() {
+    $.validator.setDefaults({
+
+        debug: true,
+      
+        success: "valid"
+      
+    });
+    $("#login-form").validate({
+        rules: {
+            login: {
+                required: true,
+                minlength: 4
+            },
+            password: {
+                required: true,
+                minlength: 4
+            }
+        },
+        messages: {
+            login: {
+                required: "Login is required",
+                minlength: "Enter min 4 characters"
+            },
+            loginPassword: {
+                required: "Password is required",
+                minlength: "Enter min 4 characters"
+            },
+        }
+    });
+    $( "#register-form" ).validate({
+        rules: {
+            firstName: {
+                required: true,
+                minlength: 2
+            },
+            regPassword: {
+                required: true
+            },
+            regPasswordRepeat: {
+                equalTo: "#regPassword"
+            }
+        },
+        messages: {
+            firstName: {
+                required: "First name is required",
+                minlength: "Enter min 2 characters"
+            },
+            lastName: {
+                required: "Last name is required",
+                minlength: "Enter min 2 characters"
+            },
+            regPasswordRepeat: "Repeat password"
+        }
+    });
+    $("#order-form").validate();
+}
 
 let showOrderForm = function(carId){
     $("#car-list").hide();
@@ -125,10 +185,10 @@ let getOrders = function(){
         beforeSend: function(xhr){
             xhr.setRequestHeader("Authorization", localStorage.getItem("token"));
         },
-        success: function(data){
+        /*success: function(data){
             data = $.parseJSON(data);
             buildOrders(data);
-        },
+        },*/
         statusCode: {
             401: function(data){
                 logout();
@@ -140,7 +200,11 @@ let getOrders = function(){
                 alert('400');
             },
             204: function(data){
-                alert('204');
+                buildOrders();
+            },
+            200: function(data){
+                data = $.parseJSON(data);
+                buildOrders(data);
             }
         }
     });
@@ -176,8 +240,22 @@ let addOrder = function(orderData){
     });
 }
 
-let registration = function(){
-    
+let registration = function(formData){
+    $.ajax({
+        type: "POST",
+        url: 'api/users/',
+        async: false,
+        data: formData,
+        success: function(data){
+            console.log(data);
+            location.reload();
+        },
+        statusCode: {
+            400: function(){
+                alert('400');
+            }
+        }
+    });
 }
 
 let login = function(params){
@@ -238,7 +316,7 @@ let buildHeader = function(){
     if(checkAuth()){
         $("#login-butt").hide();
         $("#logout-butt").show();
-        $("#registr-butt").hide();
+        $("#register-butt").hide();
         $("#orders-butt").show();
         $("#hello").text("Hello, "+localStorage.getItem('login'));
     }
@@ -273,9 +351,14 @@ let buildCarsList = function(){
     });
 }
 
-let buildOrders = function(orders){
+let buildOrders = function(orders = null){
     $("#orders-list").text("");
     $("#orders-list").append($("<h2>").text('Orders'));
+    if(orders == null){
+        $("#orders-list").append($("<h3>").text("Haven`t orders yet"));
+        return;
+    }
+
     let $thead = $("<tr>").append(
         $("<th>").text("Mark"),
         $("<th>").text("Model"),
@@ -286,7 +369,7 @@ let buildOrders = function(orders){
 
 
     let $table = $("<table>").append($thead);
-
+    let totalPrice = 0;
     $.each(orders, function(i, item){
         let $row = $("<tr>").append(
             $("<td>").text(item.mark),
@@ -295,9 +378,11 @@ let buildOrders = function(orders){
             $("<td>").text(item.price),
             $("<td>").text(item.pay_type),
         );
+        totalPrice += 1*item.price;
         $table.append($row);    
     });
     $("#orders-list").append($table);
+    $("#orders-list").append($("<h3>").text("Total price: $"+totalPrice));
     $("#orders-list").append($("<hr>"));
 }
 

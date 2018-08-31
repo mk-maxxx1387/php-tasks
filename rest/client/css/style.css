@@ -103,3 +103,7 @@ body{
 .order-form-but-subm{
     margin-top: 14px;
 }
+
+.error {
+    color: firebrick;
+}

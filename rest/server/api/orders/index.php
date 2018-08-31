@@ -32,7 +32,7 @@ class Orders {
         if($res){
             http_response_code(200);
             echo json_encode($res);
-        } else{
+        } else if(count($res) == 0){
             http_response_code(204);
             echo json_encode(array("message" => "Empty result"));
         }

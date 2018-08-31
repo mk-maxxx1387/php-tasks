@@ -16,9 +16,20 @@ class Users
     }
     //insert
     public function postUsers(){
-        $username = $_SERVER['PHP_AUTH_USER'];
-        $password = $_SERVER['PHP_AUTH_PW'];
-        return "$username = $password";
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $login = $_POST['login'];
+        $passwd = $_POST['regPassword'];
+        $passwdAgin = $_POST['regPasswordRepeat'];
+        
+        $query = "
+            INSERT INTO carshop_users (first_name, last_name, login, password) 
+            VALUES (?, ?, ?, ?)
+        ";
+        $res = $this->db->query($query, array($firstName, $lastName, $login, $passwd));
+
+        http_response_code(200);
+        echo json_encode(array("message" => "User was added"));
     }
     //update
     public function putUsers(){
