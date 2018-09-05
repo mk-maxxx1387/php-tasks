@@ -2,6 +2,7 @@
 
 include_once("../libs/RESTServer.php");
 include_once("../libs/Token.php");
+include_once("../libs/Validate.php");
 
 class Users 
 {
@@ -11,47 +12,39 @@ class Users
         $this->db = RESTServer::getDBConn();
     }
 
-    public function getUsers($param=false){
-
-    }
-
     public function postUsers(){
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $login = $_POST['login'];
-        $passwd = $_POST['regPassword'];
-        $passwdAgin = $_POST['regPasswordRepeat'];
+        $validate = new Validate();
+        $result = $validate->validateRegister();
         
+        if(is_string($result)){
+            return array("code" => 400, "data" => $result);
+        }
+
         $query = "
             INSERT INTO carshop_users (first_name, last_name, login, password) 
             VALUES (?, ?, ?, ?)
         ";
-        $res = $this->db->query($query, array($firstName, $lastName, $login, $passwd));
+        $res = $this->db->query($query, $result);
 
-        /*http_response_code(200);
-        echo json_encode(array("message" => "User was added"));*/
         return array("code" => 200, "data" => array("message" => "User was added"));
     }
 
     public function putUsers(){
-        $login = $_SERVER['PHP_AUTH_USER'];
-        $pwd = $_SERVER['PHP_AUTH_PW'];
+        $validate = new Validate();
+        $result = $validate->validateLogin();
+        
         $query = "
             SELECT id, login, password 
             FROM carshop_users
             WHERE login = ?
             AND password = ?
         ";
-        $res = $this->db->query($query, array($login, $pwd));
+        $res = $this->db->query($query, $result);
         
         if(!$res){
-            /*http_response_code(401);
-            echo json_encode(array("message" => "Wrong login or password"));*/
-            return array("code" => 401, "data" => array("message" => "Wrong login or password"));
+            return array("code" => 401, "data" => "Wrong login or password");
         } else {
             $token = Token::createToken($res['id']);
-            /*http_response_code(200);
-            echo json_encode(array("token" => $token, "login" => $res['login']));*/
             return array("code" => 200, "data" => array("token" => $token, "login" => $res['login']));
         }
 
@@ -60,13 +53,9 @@ class Users
     public function deleteUsers(){
         $res = Token::removeToken();
         if($res){
-            /*http_response_code(200);
-            echo json_encode(array("message" => "Logout successful"));*/
             return array("code" => 200, "data" => array("message" => "Logout successful"));
         } else {
-            /*http_response_code(401);
-            echo json_encode(array("message" => "Token not found"));*/
-            return array("code" => 401, "data" => array("message" => "Token not found. Please, login"));
+            return array("code" => 401, "data" => "Token not found. Please, login");
         }
     }
 }

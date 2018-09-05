@@ -1,7 +1,7 @@
 <?php
 include_once("../libs/RESTServer.php");
-include_once("../libs/Order.php");
 include_once("../libs/Token.php");
+include_once("../libs/Validate.php");
 
 class Orders {
     protected $db;
@@ -14,8 +14,6 @@ class Orders {
         $userId = Token::getUserIdByToken();
       
         if(false == $userId){
-            /*http_response_code(401);
-            echo json_encode(array("message" => "You are not authorized. Please log in!"));*/
             return array("code" => 401, "data" => array("message" => "You are not authorized. Please log in!"));
         }
 
@@ -30,39 +28,28 @@ class Orders {
         $res = $this->db->query($query, array($userId), 'many');
 
         if($res){
-            /*http_response_code(200);
-            echo json_encode($res);*/
             return array("code" => 200, "data" => $res);
         } else if(count($res) == 0){
-            /*http_response_code(204);
-            echo json_encode(array("message" => "Empty result"));*/
-            return array("code" => 204, "data" => array("message" => "Empty result"));
+            return array("code" => 204, "data" => "Empty result");
         }
     }
 
     public function postOrders(){
         $userId = Token::getUserIdByToken();
-        $data = array(
-            $_POST['carId'],
-            $userId,
-            $_POST['firstName'],
-            $_POST['lastName'], 
-            $_POST['payType']
-        );
+        $validate = new Validate();
+        $result = $validate->validateOrder($userId);
+
+        if(is_string($result)){
+            return array("code" => 400, "data" => $result);
+        }
 
         $query = "
             INSERT INTO `carshop_orders`(car_id, user_id, first_name, last_name, pay_type) 
             VALUES (?, ?, ?, ?, ?)";
-        $res = $this->db->query($query, $data);
+        $res = $this->db->query($query, $result);
 
-        /*http_response_code(200);
-        echo json_encode("Order was added");*/
-        return array("code" => 200, "data" => array("message" => "Order was added"));
+        return array("code" => 200, "data" => "Order was added");
     }
-
-    public function putOrders(){}
-
-    public function deleteOrders(){}
 }
 
 RESTServer::start(new Orders());

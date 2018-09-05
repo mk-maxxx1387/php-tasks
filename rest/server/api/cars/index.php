@@ -15,8 +15,13 @@ class Cars
         if($param){
             $query .= "WHERE id = $param";
         }
-
-        return array("code" => 200, "data" => $this->db->query($query));
+        $res = $this->db->query($query);
+        if($res){
+            return array("code" => 200, "data" => $res);
+        } else{
+            return array("code" => 404, "data" => "Data not found");
+        }
+        
     }
     //insert
     public function postCars(){}

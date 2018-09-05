@@ -39,13 +39,12 @@ class Token
         $db = RESTServer::getDBConn();
         $headers = getallheaders();
         $authToken = $headers['Authorization'];
-
+        var_dump($authToken);
         $query = "
             DELETE FROM `carshop_user_tokens`
             WHERE token = ? 
         ";
         $res = $db->query($query, array($authToken));
-        var_dump($res);
         return $res;
     }
 }

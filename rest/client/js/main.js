@@ -27,7 +27,7 @@ $(document).ready(function(){
         event.preventDefault();
         logout();
         $("#login-butt").show();
-        $("#registr-butt").show();
+        $("#register-butt").show();
         $("#orders-list").hide();
         $("#orders-list").text('');
         $("#car-list").show();
@@ -77,7 +77,7 @@ $(document).ready(function(){
         } 
     });
     $("#order-form").on("submit", function(event){
-        var isvalid = $("#login-form").valid();
+        var isvalid = $("#order-form").valid();
         if (isvalid) {
             event.preventDefault();
             let orderData = $("#order-form").serializeArray();
@@ -87,12 +87,12 @@ $(document).ready(function(){
         }
     });
     $("#register-form").on("submit", function(event){
-        var isvalid = $("#login-form").valid();
+        var isvalid = $("#register-form").valid();
         if (isvalid) {
             event.preventDefault();
             let registerData = $("#register-form").serializeArray();   
             registration(registerData);
-        }  
+        }   
     });
 
     
@@ -134,8 +134,17 @@ let formsValidation = function() {
                 required: true,
                 minlength: 2
             },
+            lastName: {
+                required: true,
+                minlength: 2
+            },
+            login: {
+                required: true,
+                minlength: 2
+            },
             regPassword: {
-                required: true
+                required: true,
+                minlength: 2
             },
             regPasswordRepeat: {
                 equalTo: "#regPassword"
@@ -149,6 +158,9 @@ let formsValidation = function() {
             lastName: {
                 required: "Last name is required",
                 minlength: "Enter min 2 characters"
+            },
+            login: {
+
             },
             regPasswordRepeat: "Repeat password"
         }
@@ -275,8 +287,12 @@ let login = function(params){
             init();
         },
         statusCode: {
-            401: function(){
-                alert('401');
+            400: function(){
+
+            },
+            401: function(data){
+                let error = JSON.parse(data.responseText);
+                $("#loginPassword-error").text(error);
             },
             404: function(){
                 alert('404');
