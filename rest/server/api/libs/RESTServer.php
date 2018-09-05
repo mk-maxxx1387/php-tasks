@@ -1,6 +1,7 @@
 <?php
 
 include_once("DB.php");
+include_once("View.php");
 //include_once("Validator.php");
 
 class RESTServer 
@@ -22,14 +23,18 @@ class RESTServer
         if(isset($class)){
             $func = strtolower($method).ucfirst($class);
             //make validation of parameters
-            self::setMethod($func, $param);
+            $params = explode('.', $param);
+            
+            self::setMethod($func, $params[0], $params[1]);
             //prepare data to responce (select data type)
         }
     }
 
-    protected static function setMethod($func, $param=false){
+    protected static function setMethod($func, $param, $printType){
         if(method_exists(self::$repo, $func)){
-            self::$repo->$func($param);
+            $res = self::$repo->$func($param);
+            new View($res["code"], $res["data"], $printType);
+
         } else {
             http_response_code(404);
             echo json_encode(array("message" => "not found"));

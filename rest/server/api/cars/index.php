@@ -15,7 +15,8 @@ class Cars
         if($param){
             $query .= "WHERE id = $param";
         }
-        echo json_encode($this->db->query($query));
+
+        return array("code" => 200, "data" => $this->db->query($query));
     }
     //insert
     public function postCars(){}

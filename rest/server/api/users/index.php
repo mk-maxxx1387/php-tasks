@@ -10,11 +10,11 @@ class Users
     public function __construct(){
         $this->db = RESTServer::getDBConn();
     }
-    //select
+
     public function getUsers($param=false){
 
     }
-    //insert
+
     public function postUsers(){
         $firstName = $_POST['firstName'];
         $lastName = $_POST['lastName'];
@@ -28,10 +28,11 @@ class Users
         ";
         $res = $this->db->query($query, array($firstName, $lastName, $login, $passwd));
 
-        http_response_code(200);
-        echo json_encode(array("message" => "User was added"));
+        /*http_response_code(200);
+        echo json_encode(array("message" => "User was added"));*/
+        return array("code" => 200, "data" => array("message" => "User was added"));
     }
-    //update
+
     public function putUsers(){
         $login = $_SERVER['PHP_AUTH_USER'];
         $pwd = $_SERVER['PHP_AUTH_PW'];
@@ -44,13 +45,14 @@ class Users
         $res = $this->db->query($query, array($login, $pwd));
         
         if(!$res){
-            http_response_code(401);
-            echo json_encode(array("message" => "Wrong login or password"));
-            return;
+            /*http_response_code(401);
+            echo json_encode(array("message" => "Wrong login or password"));*/
+            return array("code" => 401, "data" => array("message" => "Wrong login or password"));
         } else {
             $token = Token::createToken($res['id']);
-            http_response_code(200);
-            echo json_encode(array("token" => $token, "login" => $res['login']));
+            /*http_response_code(200);
+            echo json_encode(array("token" => $token, "login" => $res['login']));*/
+            return array("code" => 200, "data" => array("token" => $token, "login" => $res['login']));
         }
 
     }
@@ -58,11 +60,13 @@ class Users
     public function deleteUsers(){
         $res = Token::removeToken();
         if($res){
-            http_response_code(200);
-            echo json_encode(array("message" => "Logout successful"));
+            /*http_response_code(200);
+            echo json_encode(array("message" => "Logout successful"));*/
+            return array("code" => 200, "data" => array("message" => "Logout successful"));
         } else {
-            http_response_code(401);
-            echo json_encode(array("message" => "Token not found"));
+            /*http_response_code(401);
+            echo json_encode(array("message" => "Token not found"));*/
+            return array("code" => 401, "data" => array("message" => "Token not found. Please, login"));
         }
     }
 }

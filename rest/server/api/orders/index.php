@@ -14,9 +14,9 @@ class Orders {
         $userId = Token::getUserIdByToken();
       
         if(false == $userId){
-            http_response_code(401);
-            echo json_encode(array("message" => "You are not authorized. Please log in!"));
-            return;
+            /*http_response_code(401);
+            echo json_encode(array("message" => "You are not authorized. Please log in!"));*/
+            return array("code" => 401, "data" => array("message" => "You are not authorized. Please log in!"));
         }
 
         $query = "
@@ -30,11 +30,13 @@ class Orders {
         $res = $this->db->query($query, array($userId), 'many');
 
         if($res){
-            http_response_code(200);
-            echo json_encode($res);
+            /*http_response_code(200);
+            echo json_encode($res);*/
+            return array("code" => 200, "data" => $res);
         } else if(count($res) == 0){
-            http_response_code(204);
-            echo json_encode(array("message" => "Empty result"));
+            /*http_response_code(204);
+            echo json_encode(array("message" => "Empty result"));*/
+            return array("code" => 204, "data" => array("message" => "Empty result"));
         }
     }
 
@@ -53,8 +55,9 @@ class Orders {
             VALUES (?, ?, ?, ?, ?)";
         $res = $this->db->query($query, $data);
 
-        http_response_code(200);
-        echo json_encode("Order was added");
+        /*http_response_code(200);
+        echo json_encode("Order was added");*/
+        return array("code" => 200, "data" => array("message" => "Order was added"));
     }
 
     public function putOrders(){}
