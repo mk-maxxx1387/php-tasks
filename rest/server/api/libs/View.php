@@ -1,5 +1,7 @@
 <?php
 
+include_once('fpdf.php');
+
 class View 
 {
     public function __construct($code, $data, $printType) {
@@ -30,7 +32,7 @@ class View
         //$name = 'file.pdf';
         //file_get_contents is standard function
         //$content = file_get_contents($name);
-        
+        /*
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename=data.pdf');
         header("Content-Description: PHP Generated Data");
@@ -39,7 +41,14 @@ class View
         header('Accept-Ranges: bytes');
         header('Expires: 0');
         header('Cache-Control: public, must-revalidate, max-age=0');
-        echo "test";
+        echo "test";*/
+        
+        $pdf=new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'Hello World!');
+        $pdf->Output();
+        
     }
 
     public function printXml()
